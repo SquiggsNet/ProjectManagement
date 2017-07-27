@@ -1,0 +1,78 @@
+<div class="col-lg-4 col-md-6" id="project_<%= project.id %>">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h2><%= project.title %></h2>
+    </div>
+    <div class="panel-body">
+      <h3>Description:</h3>
+      <p><%= project.description %></p>
+      <h3>Start Date:</h3>
+      <p><%= project.start_date %></p>
+      <p>
+        <%= link_to project_path(project), class: "btn btn-lg btn-info col-xs-4" do %>
+            <span class="glyphicon glyphicon-eye-open"></span>
+        <% end %>
+
+        <button type="button" class="btn btn-lg btn-warning col-xs-4" data-toggle="modal" data-target="#myUpdateProject_<%= project.id %>">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+
+        <%= link_to project_path(project),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' },
+                    class: "btn btn-lg btn-danger col-xs-4",
+                    remote: true do %>
+            <span class="glyphicon glyphicon-trash"></span>
+        <% end %>
+      </p>
+
+
+    </div>
+    <div class="panel-footer">
+      Logged Hours:
+    </div>
+  </div>
+</div>
+
+<!-- Modal update projects -->
+<%= form_for(project, :method => :put ,remote: true) do |f| %>
+
+    <div class="modal fade" id="myUpdateProject_<%= project.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2 class="modal-title" id="myModalLabel">Update Project</h2>
+          </div>
+
+          <div class="modal-body">
+            <div class="field">
+              <%= f.label :title %>
+              <%= f.text_field :title, class: "form-control" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :description %>
+              <%= f.text_area :description, class: "form-control", rows: 5 %>
+            </div>
+
+            <div class="field">
+              <%= f.label :start_date %>
+              <%= f.date_field :start_date, class: "form-control" %>
+            </div>
+
+            <div id="error_explanation_create"></div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <%= button_tag :class => "btn btn-primary" do %>
+                <span class="glyphicon glyphicon-floppy-disk"></span> Save Project
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+<% end %>

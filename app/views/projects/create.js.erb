@@ -1,0 +1,24 @@
+$('#create_project').click(function(){
+  $('.project_title, .project_description, .project_start_date').val('');
+  $("#error_explanation_create").empty();
+});
+
+
+//If errors, loop through messages hash and append result to modal
+<% if @project.errors.any? %>
+//Empty errors before each new submit to ensure that they don't stick
+$("#error_explanation_create").empty();
+<% str = "" %>
+<% @project.errors.full_messages.each do |error| %>
+<% str+= error + "<br/>" %>
+<% end %>
+$("#error_explanation_create").append("<%= raw j str %>");
+<% else %>
+
+
+$('#myNewProject').modal('hide');
+$('.project_title, .project_description, .project_start_date').val('');
+
+$('#container_projects').append('<%= j render @project %>');
+$("#project_<%= @project.id %>").hide().fadeIn(1000);
+<% end %>

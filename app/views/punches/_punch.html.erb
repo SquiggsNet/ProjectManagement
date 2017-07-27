@@ -1,0 +1,60 @@
+<tr>
+  <td><%= punch.start_time
+     %></td>
+  <td></td>
+  <td></td>
+  <td><%= punch.planned %></td>
+  <td><%= punch.accomplished %></td>
+  <td>
+    <button type="button" class="btn btn-lg btn-warning" data-toggle="modal" data-target="#myUpdatePunch_<%= punch.id %>">
+      <span class="glyphicon glyphicon-log-out"></span> Punch Out
+    </button>
+  </td>
+  <td>
+    <%= link_to [punch.project, punch],
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: "btn btn-lg btn-danger",
+                remote: true do %>
+        <span class="glyphicon glyphicon-trash"></span>
+    <% end %>
+  </td>
+</tr>
+
+<!-- Modal update projects -->
+<%= form_for([punch.project, punch], :method => :put ,remote: true) do |f| %>
+
+    <div class="modal fade" id="myUpdatePunch_<%= punch.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2 class="modal-title" id="myModalLabel">Punch Out</h2>
+          </div>
+
+          <div class="modal-body">
+            <div class="field">
+              <%= f.label :accomplished %>
+              <%= f.text_area :accomplished, class: "form-control punch_planned", rows: 5  %>
+            </div>
+
+            <div class="field">
+              <%= f.label :end_time %>
+              <%= f.datetime_select :end_time, :order=>[:day, :month, :year] ,:value => Time.now.to_datetime, class: "form-control punch_start_time" %>
+            </div>
+
+            <div id="error_explanation_create"></div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <%= button_tag :class => "btn btn-primary" do %>
+                <span class="glyphicon glyphicon-log-in"></span> Punch Out
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+<% end %>
